@@ -1,0 +1,117 @@
+{
+  "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "name": "GoRest Environment",
+  "values": [
+    {
+      "key": "token",
+      "value": "YOUR_ACCESS_TOKEN",
+      "enabled": true
+    },
+    {
+      "key": "timestamp",
+      "value": "1755759821",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2025-08-21T00:00:00.000Z",
+  "_postman_exported_using": "Postman/10.0.0"
+}
+{
+  "info": {
+    "name": "GoRest API Test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"John Doe\",\n  \"gender\": \"male\",\n  \"email\": \"johndoe{{timestamp}}@test.com\",\n  \"status\": \"active\"\n}"
+        },
+        "url": {
+          "raw": "https://gorest.co.in/public/v2/users",
+          "protocol": "https",
+          "host": [
+            "gorest",
+            "co",
+            "in"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Verify First User Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://gorest.co.in/public/v2/users",
+          "protocol": "https",
+          "host": [
+            "gorest",
+            "co",
+            "in"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"First user's status is active or inactive\", function () {",
+              "    let jsonData = pm.response.json();",
+              "    let status = jsonData[0].status;",
+              "    pm.expect([\"active\", \"inactive\"]).to.include(status);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": "YOUR_ACCESS_TOKEN"
+    },
+    {
+      "key": "timestamp",
+      "value": "1755759554"
+    }
+  ]
+}
